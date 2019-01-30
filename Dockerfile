@@ -12,7 +12,7 @@ RUN curl -sL https://github.com/apex/apex/releases/download/v${apex_var}/apex_${
   | tar xz -C /tmp \
   && mv /tmp/apex /bin/
 
-FROM circleci/ruby:2.6.0
+FROM circleci/ruby:2.6.0-node
 COPY --from=0 /bin/terraform /bin
 COPY --from=0 /bin/tfnotify /bin
 COPY --from=0 /bin/assume-role /bin
