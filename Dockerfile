@@ -26,3 +26,4 @@ COPY --from=0 /bin/assume-role /bin
 COPY --from=0 /bin/apex /bin
 COPY --from=0 /bin/aws-iam-authenticator /bin
 COPY --from=0 /bin/kubectl /bin
+RUN sudo apt -y install awscli
