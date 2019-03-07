@@ -28,4 +28,5 @@ COPY --from=0 /bin/aws-iam-authenticator /bin
 COPY --from=0 /bin/kubectl /bin
 RUN sudo apt -y install mysql-client python-pip \
   && pip install awscli
+ENV PATH $PATH:$HOME/.local/bin
 RUN echo 'export PATH=$PATH:${HOME}/.local/bin' >> /home/circleci/.bashrc
