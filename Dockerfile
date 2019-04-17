@@ -17,6 +17,8 @@ RUN curl -sL https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/d
 RUN curl -sL https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl -o /tmp/kubectl \
   && chmod +x /tmp/kubectl \
   && mv /tmp/kubectl /bin
+RUN curl -sSL https://github.com/shyiko/kubesec/releases/download/0.9.2/kubesec-0.9.2-linux-amd64 \
+  -o kubesec && chmod +x kubesec && mv kubesec /bin/
 
 
 FROM circleci/ruby:2.6.0-node
@@ -26,6 +28,7 @@ COPY --from=0 /bin/assume-role /bin
 COPY --from=0 /bin/apex /bin
 COPY --from=0 /bin/aws-iam-authenticator /bin
 COPY --from=0 /bin/kubectl /bin
+COPY --from=0 /bin/kubesec /bin
 RUN sudo apt -y install mysql-client python-pip \
   && pip install awscli
 ENV PATH $PATH:/home/circleci/.local/bin
