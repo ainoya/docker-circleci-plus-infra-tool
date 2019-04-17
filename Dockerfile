@@ -19,7 +19,8 @@ RUN curl -sL https://storage.googleapis.com/kubernetes-release/release/$(curl -s
   && mv /tmp/kubectl /bin
 RUN curl -sSL https://github.com/shyiko/kubesec/releases/download/0.9.2/kubesec-0.9.2-linux-amd64 \
   -o kubesec && chmod +x kubesec && mv kubesec /bin/
-
+RUN curl -sSL https://github.com/kubernetes-sigs/kustomize/releases/download/v2.0.3/kustomize_2.0.3_linux_amd64 \
+  -o kustomize && chmod +x kustomize && mv kustomize /bin/
 
 FROM circleci/ruby:2.6.0-node
 COPY --from=0 /bin/terraform /bin
@@ -29,6 +30,7 @@ COPY --from=0 /bin/apex /bin
 COPY --from=0 /bin/aws-iam-authenticator /bin
 COPY --from=0 /bin/kubectl /bin
 COPY --from=0 /bin/kubesec /bin
+COPY --from=0 /bin/kustomize /bin
 RUN sudo apt -y install mysql-client python-pip \
   && pip install awscli
 ENV PATH $PATH:/home/circleci/.local/bin
