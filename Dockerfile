@@ -2,6 +2,7 @@ FROM hashicorp/terraform:0.11.11
 ARG tfnotify_var=v0.3.0
 ARG assume_role_var=0.3.2
 ARG apex_var=1.0.0-rc3
+RUN apk add curl
 RUN curl -sL https://github.com/mercari/tfnotify/releases/download/${tfnotify_var}/tfnotify_${tfnotify_var}_linux_amd64.tar.gz  \
   | tar xz -C /tmp \
   && mv /tmp/tfnotify_${tfnotify_var}_linux_amd64/tfnotify /bin/
@@ -31,7 +32,11 @@ COPY --from=0 /bin/aws-iam-authenticator /bin
 COPY --from=0 /bin/kubectl /bin
 COPY --from=0 /bin/kubesec /bin
 COPY --from=0 /bin/kustomize /bin
-RUN sudo apt -y install mysql-client python-pip \
+RUN sudo apt-get -y update \
+  && sudo apt -y install mysql-client python-pip \
   && pip install awscli
+RUN curl -sSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "/tmp/session-manager-plugin.deb" \
+  && sudo dpkg -i /tmp/session-manager-plugin.deb \
+  && rm /tmp/session-manager-plugin.deb
 ENV PATH $PATH:/home/circleci/.local/bin
 RUN echo 'export PATH=$PATH:${HOME}/.local/bin' >> /home/circleci/.bashrc
