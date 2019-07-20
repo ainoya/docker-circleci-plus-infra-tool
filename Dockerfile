@@ -24,6 +24,14 @@ RUN curl -sSL https://github.com/kubernetes-sigs/kustomize/releases/download/v2.
   -o kustomize && chmod +x kustomize && mv kustomize /bin/
 
 FROM circleci/ruby:2.6.0-node
+RUN sudo apt-get update && sudo apt-get install -y gcc make
+WORKDIR /tmp
+RUN curl -sSL http://www.gcd.org/sengoku/stone/stone-2.3e.tar.gz -o stone.tar.gz
+RUN tar zxf stone.tar.gz && \
+  cd stone-*/ && \
+  FLAGS=-D_GNU_SOURCE make linux && chmod +x stone && \
+  cp stone /tmp/stone
+FROM circleci/ruby:2.6.0-node
 COPY --from=0 /bin/terraform /bin
 COPY --from=0 /bin/tfnotify /bin
 COPY --from=0 /bin/assume-role /bin
@@ -32,6 +40,7 @@ COPY --from=0 /bin/aws-iam-authenticator /bin
 COPY --from=0 /bin/kubectl /bin
 COPY --from=0 /bin/kubesec /bin
 COPY --from=0 /bin/kustomize /bin
+COPY --from=1 /tmp/stone /bin
 RUN sudo apt-get -y update \
   && sudo apt -y install mysql-client python-pip \
   && pip install awscli
