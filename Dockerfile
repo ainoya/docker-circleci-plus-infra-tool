@@ -42,7 +42,7 @@ COPY --from=0 /bin/kubesec /bin
 COPY --from=0 /bin/kustomize /bin
 COPY --from=1 /tmp/stone /bin
 RUN sudo apt-get -y update \
-  && sudo apt -y install mysql-client python-pip \
+  && sudo apt -y install mysql-client python-pip mysql-server \
   && pip install awscli
 RUN curl -sSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "/tmp/session-manager-plugin.deb" \
   && sudo dpkg -i /tmp/session-manager-plugin.deb \
