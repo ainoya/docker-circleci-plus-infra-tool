@@ -41,6 +41,7 @@ COPY --from=0 /bin/kubectl /bin
 COPY --from=0 /bin/kubesec /bin
 COPY --from=0 /bin/kustomize /bin
 COPY --from=1 /tmp/stone /bin
+RUN sudo curl -sSL https://s3.amazonaws.com/rds-downloads/rds-ca-2019-root.pem -o /usr/share/ca-certificates/rds-ca-2019-root.pem
 RUN sudo apt-get -y update \
   && sudo apt -y install mysql-client python-pip mysql-server \
   && pip install awscli mycli datadog
