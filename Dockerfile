@@ -43,8 +43,8 @@ COPY --from=0 /bin/kustomize /bin
 COPY --from=1 /tmp/stone /bin
 RUN sudo curl -sSL https://s3.amazonaws.com/rds-downloads/rds-ca-2019-root.pem -o /usr/share/ca-certificates/rds-ca-2019-root.pem
 RUN sudo apt-get -y update \
-  && sudo apt -y install mysql-client python-pip mysql-server \
-  && pip install awscli mycli datadog \
+  && sudo apt -y install mysql-client python-pip mysql-server gosu \
+  && sudo pip install awscli mycli datadog \
   && gem install aws-sdk-resources
 RUN curl -sSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "/tmp/session-manager-plugin.deb" \
   && sudo dpkg -i /tmp/session-manager-plugin.deb \
