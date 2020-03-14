@@ -48,6 +48,9 @@ RUN curl -sSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/
   && sudo dpkg -i /tmp/session-manager-plugin.deb \
   && rm /tmp/session-manager-plugin.deb
 COPY tools/do-exclusively.sh /bin
+RUN sudo userdel node \
+  && sudo groupmod -g 1000 circleci \
+  && sudo usermod -u 1000 circleci
 RUN sudo chmod +x /bin/do-exclusively.sh
 ENV PATH $PATH:/home/circleci/.local/bin
 RUN echo 'export PATH=$PATH:${HOME}/.local/bin' >> /home/circleci/.bashrc
