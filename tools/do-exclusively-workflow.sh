@@ -45,9 +45,9 @@ while true; do
 
         if [[ "$(ruby -r 'time' -e 'puts Time.parse(ARGV[0]) < Time.parse(ARGV[1])' "$created_at_of_my_workflow" < "$created_at")" == "true" ]]; then
             # cancel myself because this workflow has been *old*
-            v2api -X POST "https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel"
-            echo "Canceling..."
-            exit 1
+            circleci step halt
+            echo "Canceled myself"
+            exit 0
         fi
     done < <(not_finished_workflow_ids "$workflow")
 
