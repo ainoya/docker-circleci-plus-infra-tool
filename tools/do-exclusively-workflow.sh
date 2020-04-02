@@ -43,11 +43,10 @@ while true; do
         ok="ng"
         created_at="$(api_call -X GET "https://circleci.com/api/v2/workflow/$workflow_id" | jq -r '.created_at')"
 
-        if [[ "$(ruby -r 'time' -e 'puts Time.parse(ARGV[0]) < Time.parse(ARGV[1])' "$created_at_of_my_workflow" < "$created_at")" == "true" ]]; then
+        if [[ "$(ruby -r 'time' -e 'puts Time.parse(ARGV[0]) < Time.parse(ARGV[1])' "$created_at_of_my_workflow" "$created_at")" == "true" ]]; then
             # cancel myself because this workflow has been *old*
-            circleci step halt
-            echo "Canceled myself"
-            exit 0
+            echo "Canceling myself..."
+            exec circleci step halt
         fi
     done < <(not_finished_workflow_ids "$workflow")
 
@@ -61,6 +60,4 @@ done
 
 echo "Acquired lock"
 
-if [[ "${#rest[@]}" -ne 0 ]]; then
-    "${rest[@]}"
-fi
+exec "${rest[@]}"
