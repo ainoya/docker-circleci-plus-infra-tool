@@ -26,10 +26,10 @@ not_finished_workflow_ids() {
         jq -r \
         --arg workflow_name "$workflow_name" \
         --arg my_build_num "$CIRCLE_BUILD_NUM" \
-        '.[] | select(.status | test(\"running|pending|queued\") and .workflows.workflow_name == $workflow_name) and .build_num != $my_build_num | .workflow_id'
+        '.[] | select((.status | test("running|pending|queued")) and .workflows.workflow_name == $workflow_name and .build_num != $my_build_num) | .workflows.workflow_id'
 }
 
-parse_args
+parse_args "$@"
 
 # e.g. 2020-04-01T10:46:48Z
 readonly created_at_of_my_workflow="$(v2api -X GET "https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID" | jq -r '.created_at')"
@@ -40,17 +40,24 @@ while true; do
 
     # repeat until there is no workflow that has not been finished yet except me
     while read workflow_id; do
+        echo "$workflow_id is running..."
+
         ok="ng"
-        created_at="$(api_call -X GET "https://circleci.com/api/v2/workflow/$workflow_id" | jq -r '.created_at')"
+        created_at="$(v2api -X GET "https://circleci.com/api/v2/workflow/$workflow_id" | jq -r '.created_at')"
+
+        echo "I was created at $created_at_of_my_workflow but the workflow ($workflow_id) was created at $created_at... so?"
 
         if [[ "$(ruby -r 'time' -e 'puts Time.parse(ARGV[0]) < Time.parse(ARGV[1])' "$created_at_of_my_workflow" "$created_at")" == "true" ]]; then
             # cancel myself because this workflow has been *old*
             echo "Canceling myself..."
             exec circleci step halt
+        else
+            echo "I'm newer! Wait to acquire the lock..."
         fi
     done < <(not_finished_workflow_ids "$workflow")
 
     if [[ "$ok" == "ok" ]]; then
+        echo "Hooray!"
         break
     else
         echo "Retrying in 5 seconds..."
