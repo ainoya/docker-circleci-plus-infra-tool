@@ -20,7 +20,7 @@ RUN curl -sL https://storage.googleapis.com/kubernetes-release/release/$(curl -s
   && mv /tmp/kubectl /bin
 RUN curl -sSL https://github.com/shyiko/kubesec/releases/download/0.9.2/kubesec-0.9.2-linux-amd64 \
   -o kubesec && chmod +x kubesec && mv kubesec /bin/
-RUN curl -sSL https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64 \
+RUN curl -sSL https://github.com/kubernetes-sigs/kustomize/releases/download/v3.5.4/kustomize_3.5.4_linux_amd64 \
   -o kustomize && chmod +x kustomize && mv kustomize /bin/
 
 FROM circleci/ruby:2.6.0-node
