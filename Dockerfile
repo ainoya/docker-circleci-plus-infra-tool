@@ -49,7 +49,7 @@ RUN curl -sSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/
   && rm /tmp/session-manager-plugin.deb
 COPY tools/do-exclusively.sh /bin
 RUN sudo chmod +x /bin/do-exclusively.sh
-COPY tools/do-exclusively-workflow.sh /bin
+COPY tools/do-exclusively.sh /bin/do-exclusively-workflow.sh
 RUN sudo chmod +x /bin/do-exclusively-workflow.sh
 ENV PATH $PATH:/home/circleci/.local/bin
 RUN echo 'export PATH=$PATH:${HOME}/.local/bin' >> /home/circleci/.bashrc
