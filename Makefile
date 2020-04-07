@@ -8,3 +8,5 @@ push: build
 	$(eval DOCKER_TAG :=$(shell git --no-pager tag --points-at HEAD | sed -e 's/^v//'))
 	docker tag $(IMAGE_NAME):latest $(IMAGE_NAME):${DOCKER_TAG}
 	docker push $(IMAGE_NAME):${DOCKER_TAG}
+show_latest_tag:
+	git describe --tags $(shell git rev-list --tags --max-count=1)
