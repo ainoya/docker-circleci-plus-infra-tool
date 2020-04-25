@@ -22,11 +22,11 @@ not_finished_workflow_ids() {
     local -r workflow_name="$1"
     local -r api_url="https://circleci.com/api/v1/project/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME?circle-token=$CIRCLE_TOKEN&limit=100"
 
-    curl -X GET -H "Accept: application/json" "$api_url" | \
+    curl -sSfL -X GET -H "Accept: application/json" "$api_url" | \
         jq -r \
         --arg workflow_name "$workflow_name" \
         --arg my_build_num "$CIRCLE_BUILD_NUM" \
-        '.[] | select((.status | test("running|pending|queued")) and .workflows.workflow_name == $workflow_name and .build_num != $my_build_num) | .workflows.workflow_id'
+        '.[] | select((.status | test("running|pending|queued")) and .workflows.workflow_name == $workflow_name and .build_num != ($my_build_num | tonumber)) | .workflows.workflow_id'
 }
 
 parse_args "$@"
