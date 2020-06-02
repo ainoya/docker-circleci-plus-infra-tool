@@ -1,4 +1,4 @@
-FROM hashicorp/terraform:0.12.23
+FROM hashicorp/terraform:0.12.26
 ARG tfnotify_ver=v0.3.0
 ARG assume_role_ver=0.3.2
 ARG apex_ver=1.0.0-rc3

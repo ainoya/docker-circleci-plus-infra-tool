@@ -1,0 +1,19 @@
+{
+  "name": "docker-circleci-plus-infra-tool",
+  "version": "0.28.0",
+  "description": "https://cloud.docker.com/repository/docker/ainoya/circleci-infra-tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ainoya/docker-circleci-plus-infra-tool.git"
+  },
+  "author": "Naoki Ainoya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ainoya/docker-circleci-plus-infra-tool/issues"
+  },
+  "homepage": "https://github.com/ainoya/docker-circleci-plus-infra-tool#readme"
+}
