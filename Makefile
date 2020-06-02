@@ -1,12 +1,12 @@
 IMAGE_NAME = ainoya/circleci-infra-tools
+DOCKER_TAG :=$(shell git describe --tags --dirty | sed -e 's/^v//')
 
 build:
 	docker build -t $(IMAGE_NAME) .
+	docker tag $(IMAGE_NAME):latest $(IMAGE_NAME):${DOCKER_TAG}
 run:
 	docker run -it --rm ainoya/circleci-infra-tools bash
-push: build
-	$(eval DOCKER_TAG :=$(shell git --no-pager tag --points-at HEAD | sed -e 's/^v//'))
-	docker tag $(IMAGE_NAME):latest $(IMAGE_NAME):${DOCKER_TAG}
+push:
 	docker push $(IMAGE_NAME):${DOCKER_TAG}
 push_dev: build
 	docker tag $(IMAGE_NAME):latest $(IMAGE_NAME):dev
