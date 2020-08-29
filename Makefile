@@ -13,3 +13,5 @@ push_dev: build
 	docker push $(IMAGE_NAME):dev
 show_latest_tag:
 	git describe --tags $(shell git rev-list --tags --max-count=1)
+update_minor_version:
+	npm version minor
