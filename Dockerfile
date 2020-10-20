@@ -1,7 +1,6 @@
 FROM hashicorp/terraform:0.12.26
 ARG tfnotify_ver=v0.3.0
 ARG assume_role_ver=0.3.2
-ARG apex_ver=1.0.0-rc3
 ARG kustomize_ver=v3.6.1
 RUN apk add curl
 RUN curl -sL https://github.com/mercari/tfnotify/releases/download/${tfnotify_ver}/tfnotify_${tfnotify_ver}_linux_amd64.tar.gz  \
@@ -10,9 +9,6 @@ RUN curl -sL https://github.com/mercari/tfnotify/releases/download/${tfnotify_ve
 RUN curl -sL https://github.com/remind101/assume-role/releases/download/${assume_role_ver}/assume-role-Linux -o /tmp/assume-role \
   && chmod +x /tmp/assume-role \
   && mv /tmp/assume-role /bin
-RUN curl -sL https://github.com/apex/apex/releases/download/v${apex_ver}/apex_${apex_ver}_linux_amd64.tar.gz \
-  | tar xz -C /tmp \
-  && mv /tmp/apex /bin/
 RUN curl -sL https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/0.4.0-alpha.1/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64 -o /tmp/aws-iam-authenticator \
   && chmod +x /tmp/aws-iam-authenticator \
   && mv /tmp/aws-iam-authenticator /bin
@@ -36,7 +32,6 @@ FROM circleci/ruby:2.6.6-node
 COPY --from=0 /bin/terraform /bin
 COPY --from=0 /bin/tfnotify /bin
 COPY --from=0 /bin/assume-role /bin
-COPY --from=0 /bin/apex /bin
 COPY --from=0 /bin/aws-iam-authenticator /bin
 COPY --from=0 /bin/kubectl /bin
 COPY --from=0 /bin/kubesec /bin
