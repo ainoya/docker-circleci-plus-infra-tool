@@ -1,4 +1,4 @@
-FROM hashicorp/terraform:0.13.4
+FROM hashicorp/terraform:0.14.5
 ARG tfnotify_ver=v0.3.0
 ARG assume_role_ver=0.3.2
 ARG kustomize_ver=v3.6.1
@@ -28,7 +28,7 @@ RUN tar zxf stone.tar.gz && \
   cd stone-*/ && \
   FLAGS=-D_GNU_SOURCE make linux && chmod +x stone && \
   cp stone /tmp/stone
-FROM circleci/ruby:2.6.6-node
+FROM circleci/ruby:2.7.1-node
 COPY --from=0 /bin/terraform /bin
 COPY --from=0 /bin/tfnotify /bin
 COPY --from=0 /bin/assume-role /bin
@@ -38,8 +38,8 @@ COPY --from=0 /bin/kubesec /bin
 COPY --from=0 /bin/kustomize /bin
 COPY --from=1 /tmp/stone /bin
 RUN sudo apt-get -y update \
-  && sudo apt -y install mariadb-client python-pip mariadb-server redis \
-  && pip install awscli mycli datadog
+  && sudo apt -y install mariadb-client python3 python3-pip mariadb-server redis groff-base \
+  && pip3 install awscli mycli datadog
 RUN curl -sSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "/tmp/session-manager-plugin.deb" \
   && sudo dpkg -i /tmp/session-manager-plugin.deb \
   && rm /tmp/session-manager-plugin.deb
