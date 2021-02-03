@@ -39,7 +39,8 @@ COPY --from=0 /bin/kustomize /bin
 COPY --from=1 /tmp/stone /bin
 RUN sudo apt-get -y update \
   && sudo apt -y install mariadb-client python3 python3-pip mariadb-server redis groff-base \
-  && pip3 install awscli mycli datadog
+  && pip3 install awscli mycli datadog \
+  && sudo gem update --system
 RUN curl -sSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "/tmp/session-manager-plugin.deb" \
   && sudo dpkg -i /tmp/session-manager-plugin.deb \
   && rm /tmp/session-manager-plugin.deb
