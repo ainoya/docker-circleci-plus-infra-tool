@@ -18,6 +18,7 @@ jobs:
       run: |
         git config --global user.email "github-actions@ainoya.io"
         git config --global user.name "GitHub Actions"
+        git pull --tags
         make update_minor_version
         git push origin --tags
     - name: docker login
