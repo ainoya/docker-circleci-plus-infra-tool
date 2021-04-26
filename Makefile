@@ -7,7 +7,9 @@ build:
 	docker tag $(IMAGE_NAME):latest ghcr.io/$(IMAGE_NAME):${DOCKER_TAG}
 run:
 	docker run -it --rm ainoya/circleci-infra-tools bash
-push:
+push_ghcr:
+	docker push ghcr.io/$(IMAGE_NAME):${DOCKER_TAG}
+push: push_ghcr
 	docker push $(IMAGE_NAME):${DOCKER_TAG}
 	docker push ghcr.io/$(IMAGE_NAME):${DOCKER_TAG}
 push_dev: build
