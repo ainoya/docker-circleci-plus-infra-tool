@@ -24,7 +24,7 @@ jobs:
       run: |
         echo ${GITHUB_TOKEN} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_FOR_GHCR }}
     - name: docker build 
       run: |
         make build
