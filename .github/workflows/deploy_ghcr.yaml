@@ -21,7 +21,7 @@ jobs:
         git push origin --tags
     - name: docker login
       run: |
-        echo ${{ secrets.GH_TOKEN_FOR_GHCR }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+        echo ${{ secrets.GH_TOKEN_FOR_GHCR }} | docker login ghcr.io -u ainoya --password-stdin
     - name: docker build 
       run: |
         make build
