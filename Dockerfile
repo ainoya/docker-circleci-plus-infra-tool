@@ -1,4 +1,4 @@
-FROM hashicorp/terraform:0.14.5
+FROM hashicorp/terraform:0.14.11
 ARG tfnotify_ver=v0.7.0
 ARG assume_role_ver=0.3.2
 ARG kustomize_ver=v3.6.1
