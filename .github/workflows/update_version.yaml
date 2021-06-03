@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - master
-name: build and push docker image
+name: update version
 jobs:
   deploy-production:
     name: build and push docker image

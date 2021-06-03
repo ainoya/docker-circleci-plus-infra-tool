@@ -2,7 +2,7 @@
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 name: build and push docker image
 jobs:
   deploy-production:
