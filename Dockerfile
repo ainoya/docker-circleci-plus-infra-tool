@@ -1,4 +1,4 @@
-FROM hashicorp/terraform:0.14.11
+FROM hashicorp/terraform:0.15.5
 ARG tfnotify_ver=v0.7.0
 ARG assume_role_ver=0.3.2
 ARG kustomize_ver=v3.6.1
@@ -47,7 +47,7 @@ RUN curl -sSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/
 COPY tools/lock.sh /bin
 COPY tools/do-exclusively.sh /bin
 RUN sudo chmod +x /bin/do-exclusively.sh \
-    && sudo chmod +x /bin/lock.sh
+  && sudo chmod +x /bin/lock.sh
 COPY tools/do-exclusively-workflow.sh /bin/do-exclusively-workflow.sh
 RUN sudo chmod +x /bin/do-exclusively-workflow.sh
 ENV PATH $PATH:/home/circleci/.local/bin
