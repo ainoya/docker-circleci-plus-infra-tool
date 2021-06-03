@@ -1,8 +1,8 @@
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
 name: build and push docker image
 jobs:
   deploy-production:
@@ -10,15 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.3.4
-    - run: |
-        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git
-    - name: package version
-      run: |
-        git config --global user.email "github-actions@ainoya.io"
-        git config --global user.name "GitHub Actions"
-        git pull --tags
-        make update_minor_version || true
-        git push origin --tags
     - name: docker login
       run: |
         echo ${{ secrets.GH_TOKEN_FOR_GHCR }} | docker login ghcr.io -u ainoya --password-stdin
