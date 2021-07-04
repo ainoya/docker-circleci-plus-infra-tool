@@ -1,11 +1,15 @@
 FROM hashicorp/terraform:1.0.0
 ARG tfnotify_ver=v0.7.0
+ARG tfcmt_ver=v1.0.0
 ARG assume_role_ver=0.3.2
 ARG kustomize_ver=v3.6.1
 RUN apk add curl
 RUN curl -sL https://github.com/mercari/tfnotify/releases/download/${tfnotify_ver}/tfnotify_linux_amd64.tar.gz  \
   | tar xz -C /tmp \
   && mv /tmp/tfnotify /bin/
+RUN curl -sL https://github.com/suzuki-shunsuke/tfcmt/releases/download/${tfcmt_ver}/tfcmt_linux_amd64.tar.gz  \
+  | tar xz -C /tmp \
+  && mv /tmp/tfcmt /bin/
 RUN curl -sL https://github.com/remind101/assume-role/releases/download/${assume_role_ver}/assume-role-Linux -o /tmp/assume-role \
   && chmod +x /tmp/assume-role \
   && mv /tmp/assume-role /bin
