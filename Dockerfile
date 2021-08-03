@@ -32,6 +32,10 @@ RUN tar zxf stone.tar.gz && \
   cd stone-*/ && \
   FLAGS=-D_GNU_SOURCE make linux && chmod +x stone && \
   cp stone /tmp/stone
+FROM alpine AS buildx
+ARG BUILDX_VERSION=0.6.1
+ADD https://github.com/docker/buildx/releases/download/v${BUILDX_VERSION}/buildx-v${BUILDX_VERSION}.linux-amd64 /docker-buildx
+RUN chmod a+x /docker-buildx
 FROM circleci/ruby:2.7.1-node
 COPY --from=0 /bin/terraform /bin
 COPY --from=0 /bin/tfnotify /bin
@@ -41,6 +45,7 @@ COPY --from=0 /bin/kubectl /bin
 COPY --from=0 /bin/kubesec /bin
 COPY --from=0 /bin/kustomize /bin
 COPY --from=1 /tmp/stone /bin
+COPY --from=buildx /docker-buildx /usr/lib/docker/cli-plugins/docker-buildx
 RUN sudo apt-get -y update \
   && sudo apt -y install mariadb-client python3 python3-pip mariadb-server redis groff-base \
   && pip3 install awscli mycli datadog \
