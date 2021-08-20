@@ -3,6 +3,7 @@ ARG tfnotify_ver=v0.7.0
 ARG tfcmt_ver=v1.0.0
 ARG assume_role_ver=0.3.2
 ARG kustomize_ver=v3.6.1
+ARG kubejob_ver=0.2.7
 RUN apk add curl
 RUN curl -sL https://github.com/mercari/tfnotify/releases/download/${tfnotify_ver}/tfnotify_linux_amd64.tar.gz  \
   | tar xz -C /tmp \
@@ -21,10 +22,12 @@ RUN curl -sL https://storage.googleapis.com/kubernetes-release/release/$(curl -s
   && mv /tmp/kubectl /bin
 RUN curl -sSL https://github.com/shyiko/kubesec/releases/download/0.9.2/kubesec-0.9.2-linux-amd64 \
   -o kubesec && chmod +x kubesec && mv kubesec /bin/
+RUN curl -sSL https://github.com/ainoya/kubejob/releases/download/v0.2.7/kubejob_${kubejob_ver}_linux_x86_64 \
+  -o kubejob && chmod +x kubejob && mv kubejob /bin/
 RUN curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${kustomize_ver}/kustomize_${kustomize_ver}_linux_amd64.tar.gz \
   | tar xz -C /tmp \
   && mv /tmp/kustomize /bin/
-FROM circleci/ruby:2.6.0-node
+FROM cimg/ruby:2.7.4-node
 RUN sudo apt-get update && sudo apt-get install -y gcc make
 WORKDIR /tmp
 RUN curl -sSL http://www.gcd.org/sengoku/stone/stone-2.3e.tar.gz -o stone.tar.gz
@@ -46,7 +49,7 @@ COPY --from=0 /bin/kubesec /bin
 COPY --from=0 /bin/kustomize /bin
 COPY --from=1 /tmp/stone /bin
 COPY --from=buildx /docker-buildx /usr/lib/docker/cli-plugins/docker-buildx
-RUN sudo apt-get -y update \
+RUN sudo apt-get -y --allow-releaseinfo-change update \
   && sudo apt -y install mariadb-client python3 python3-pip mariadb-server redis groff-base \
   && pip3 install awscli mycli datadog \
   && sudo gem update --system
