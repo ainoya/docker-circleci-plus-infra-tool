@@ -47,6 +47,7 @@ COPY --from=0 /bin/aws-iam-authenticator /bin
 COPY --from=0 /bin/kubectl /bin
 COPY --from=0 /bin/kubesec /bin
 COPY --from=0 /bin/kustomize /bin
+COPY --from=0 /bin/kubejob /bin
 COPY --from=1 /tmp/stone /bin
 COPY --from=buildx /docker-buildx /usr/lib/docker/cli-plugins/docker-buildx
 RUN sudo apt-get -y --allow-releaseinfo-change update \
