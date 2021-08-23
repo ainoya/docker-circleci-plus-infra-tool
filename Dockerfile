@@ -23,7 +23,7 @@ RUN curl -sL https://storage.googleapis.com/kubernetes-release/release/v${kubect
   && mv /tmp/kubectl /bin
 RUN curl -sSL https://github.com/shyiko/kubesec/releases/download/0.9.2/kubesec-0.9.2-linux-amd64 \
   -o kubesec && chmod +x kubesec && mv kubesec /bin/
-RUN curl -sSL https://github.com/ainoya/kubejob/releases/download/v0.2.7/kubejob_${kubejob_ver}_linux_amd64 \
+RUN curl -sSL https://github.com/ainoya/kubejob/releases/download/${kubejob_ver}/kubejob_${kubejob_ver}_linux_amd64 \
   -o kubejob && chmod +x kubejob && mv kubejob /bin/
 RUN curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${kustomize_ver}/kustomize_${kustomize_ver}_linux_amd64.tar.gz \
   | tar xz -C /tmp \
