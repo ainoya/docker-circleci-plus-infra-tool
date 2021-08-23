@@ -18,7 +18,7 @@ RUN curl -sL https://github.com/remind101/assume-role/releases/download/${assume
 RUN curl -sL https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/0.4.0-alpha.1/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64 -o /tmp/aws-iam-authenticator \
   && chmod +x /tmp/aws-iam-authenticator \
   && mv /tmp/aws-iam-authenticator /bin
-RUN curl -sL https://storage.googleapis.com/kubernetes-release/release/v${kubectl_ver}}/bin/linux/amd64/kubectl -o /tmp/kubectl \
+RUN curl -sL https://storage.googleapis.com/kubernetes-release/release/v${kubectl_ver}/bin/linux/amd64/kubectl -o /tmp/kubectl \
   && chmod +x /tmp/kubectl \
   && mv /tmp/kubectl /bin
 RUN curl -sSL https://github.com/shyiko/kubesec/releases/download/0.9.2/kubesec-0.9.2-linux-amd64 \
