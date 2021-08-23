@@ -4,6 +4,7 @@ ARG tfcmt_ver=v1.0.0
 ARG assume_role_ver=0.3.2
 ARG kustomize_ver=v3.6.1
 ARG kubejob_ver=0.2.7
+ARG kubectl_ver=1.20.9
 RUN apk add curl
 RUN curl -sL https://github.com/mercari/tfnotify/releases/download/${tfnotify_ver}/tfnotify_linux_amd64.tar.gz  \
   | tar xz -C /tmp \
@@ -17,7 +18,7 @@ RUN curl -sL https://github.com/remind101/assume-role/releases/download/${assume
 RUN curl -sL https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/0.4.0-alpha.1/aws-iam-authenticator_0.4.0-alpha.1_linux_amd64 -o /tmp/aws-iam-authenticator \
   && chmod +x /tmp/aws-iam-authenticator \
   && mv /tmp/aws-iam-authenticator /bin
-RUN curl -sL https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl -o /tmp/kubectl \
+RUN curl -sL https://storage.googleapis.com/kubernetes-release/release/v${kubectl_ver}/bin/linux/amd64/kubectl -o /tmp/kubectl \
   && chmod +x /tmp/kubectl \
   && mv /tmp/kubectl /bin
 RUN curl -sSL https://github.com/shyiko/kubesec/releases/download/0.9.2/kubesec-0.9.2-linux-amd64 \
