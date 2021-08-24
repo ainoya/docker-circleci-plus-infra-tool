@@ -3,7 +3,7 @@ ARG tfnotify_ver=v0.7.0
 ARG tfcmt_ver=v1.0.0
 ARG assume_role_ver=0.3.2
 ARG kustomize_ver=v3.6.1
-ARG kubejob_ver=0.2.10
+ARG kubejob_ver=0.2.11
 ARG kubectl_ver=1.20.9
 RUN apk add curl
 RUN curl -sL https://github.com/mercari/tfnotify/releases/download/${tfnotify_ver}/tfnotify_linux_amd64.tar.gz  \
