@@ -31,3 +31,7 @@ jobs:
     - name: docker push
       run: |
         make push_ghcr
+    - name: envoy - docker build & push
+      run: |
+        cd envoy
+        make build push_ghcr
