@@ -5,7 +5,11 @@ ARG assume_role_ver=0.3.2
 ARG kustomize_ver=v3.6.1
 ARG kubejob_ver=0.2.11
 ARG kubectl_ver=1.20.9
+ARG evans_ver=0.10.0
 RUN apk add curl
+RUN curl -sL https://github.com/ktr0731/evans/releases/download/${evans_ver}/evans_linux_amd64.tar.gz \
+  | tar xz -C /tmp \
+  && mv /tmp/evans /bin/
 RUN curl -sL https://github.com/mercari/tfnotify/releases/download/${tfnotify_ver}/tfnotify_linux_amd64.tar.gz  \
   | tar xz -C /tmp \
   && mv /tmp/tfnotify /bin/
@@ -43,6 +47,7 @@ RUN chmod a+x /docker-buildx
 FROM circleci/ruby:2.7.1-node
 COPY --from=0 /bin/terraform /bin
 COPY --from=0 /bin/tfnotify /bin
+COPY --from=0 /bin/evans /bin
 COPY --from=0 /bin/assume-role /bin
 COPY --from=0 /bin/aws-iam-authenticator /bin
 COPY --from=0 /bin/kubectl /bin
