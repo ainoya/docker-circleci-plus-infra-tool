@@ -1,6 +1,7 @@
 FROM hashicorp/terraform:1.0.1
 ARG tfnotify_ver=v0.7.0
 ARG tfcmt_ver=v1.1.0
+ARG github-comment_ver=3.1.0
 ARG assume_role_ver=0.3.2
 ARG kustomize_ver=v3.6.1
 ARG kubejob_ver=0.2.11
@@ -16,6 +17,9 @@ RUN curl -sL https://github.com/mercari/tfnotify/releases/download/${tfnotify_ve
 RUN curl -sL https://github.com/suzuki-shunsuke/tfcmt/releases/download/${tfcmt_ver}/tfcmt_linux_amd64.tar.gz  \
   | tar xz -C /tmp \
   && mv /tmp/tfcmt /bin/
+RUN curl -sL https://github.com/suzuki-shunsuke/github-comment/releases/download/v${github-comment_ver}/github-comment_${github-comment_ver}_linux_amd64.tar.gz \
+  | tar xz -C /tmp \
+  && mv /tmp/github-comment /bin/
 RUN curl -sL https://github.com/remind101/assume-role/releases/download/${assume_role_ver}/assume-role-Linux -o /tmp/assume-role \
   && chmod +x /tmp/assume-role \
   && mv /tmp/assume-role /bin
@@ -48,6 +52,7 @@ FROM circleci/ruby:2.7.1-node
 COPY --from=0 /bin/terraform /bin
 COPY --from=0 /bin/tfnotify /bin
 COPY --from=0 /bin/tfcmt /bin
+COPY --from=0 /bin/github-comment /bin
 COPY --from=0 /bin/evans /bin
 COPY --from=0 /bin/assume-role /bin
 COPY --from=0 /bin/aws-iam-authenticator /bin
