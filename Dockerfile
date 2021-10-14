@@ -5,7 +5,7 @@ ARG github_comment_ver=3.1.0
 ARG assume_role_ver=0.3.2
 ARG kustomize_ver=v3.6.1
 ARG kubejob_ver=0.2.11
-ARG kubectl_ver=1.20.9
+ARG kubectl_ver=1.21.5
 ARG evans_ver=0.10.0
 RUN apk add curl
 RUN curl -sL https://github.com/ktr0731/evans/releases/download/${evans_ver}/evans_linux_amd64.tar.gz \
