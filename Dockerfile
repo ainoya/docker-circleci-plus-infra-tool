@@ -7,7 +7,7 @@ ARG kustomize_ver=v3.6.1
 ARG kubejob_ver=0.2.11
 ARG kubectl_ver=1.21.5
 ARG evans_ver=0.10.0
-RUN apk add curl jq less
+RUN apk add curl
 RUN curl -sL https://github.com/ktr0731/evans/releases/download/${evans_ver}/evans_linux_amd64.tar.gz \
   | tar xz -C /tmp \
   && mv /tmp/evans /bin/
@@ -63,7 +63,7 @@ COPY --from=0 /bin/kubejob /bin
 COPY --from=1 /tmp/stone /bin
 COPY --from=buildx /docker-buildx /usr/lib/docker/cli-plugins/docker-buildx
 RUN sudo apt-get -y --allow-releaseinfo-change update \
-  && sudo apt -y install mariadb-client python3 python3-pip mariadb-server redis groff-base \
+  && sudo apt -y install mariadb-client python3 python3-pip mariadb-server redis groff-base less \
   && pip3 install awscli mycli datadog \
   && sudo gem update --system
 RUN curl -sSL "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "/tmp/session-manager-plugin.deb" \
